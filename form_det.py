@@ -1,6 +1,6 @@
 import cv2
 
-from Trackbar import create_trackbar, get_trackbar_value
+from Trackbar import create_trackbar, get_trackbar_value, adaptive_threshold
 from frame_editor import denoise
 
 
@@ -20,8 +20,8 @@ def main():
     while True:
         ret, frame = cap.read()
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-        trackbar_val = get_trackbar_value(trackbar_name=trackbar_name, window_name=window_name)
-        adapt_frame = cv2.adaptiveThreshold(frame=gray_frame, slider_max=slider_max,
+        trackbar_val = int(get_trackbar_value(trackbar_name=trackbar_name, window_name=window_name)*2)/2 + 3
+        adapt_frame = adaptive_threshold(frame=gray_frame, slider_max=slider_max,
                                          adaptative=cv2.ADAPTIVE_THRESH_MEAN_C,
                                          binary=cv2.THRESH_BINARY,
                                          trackbar_value=trackbar_val)
