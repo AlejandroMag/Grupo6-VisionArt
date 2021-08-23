@@ -14,11 +14,12 @@ cv2.namedWindow('Mean2')
 
 cap= cv2.VideoCapture(0)
 
-create_trackbar(trackbar_name, window_name, slider_max)
+create_trackbar(trackbar_name, window_name, 17)
 create_trackbar('Trackbar2', 'Mean2', slider_max)
-
+cv2.COLOR_RGB2BGR
 biggest_contour = None
-color_white = (255, 255, 255)
+
+color_red = (255, 0, 0)
 saved_contours = []
 
 while True:
@@ -48,9 +49,9 @@ while True:
     if len(contours) > 0:
         biggest_contour = get_biggest_contour(contours=contours)
         # hu_moments = get_hu_moments(contour=biggest_contour)
-        if compare_contours(contour_to_compare=biggest_contour, saved_contours=saved_contours, max_diff=1):
-            draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_white, thickness=20)
-        draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_white, thickness=3)
+        if compare_contours(contour_to_compare=biggest_contour, saved_contours=saved_contours, max_diff=0.5):
+            draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_red, thickness=20)
+        draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_red, thickness=3)
 
     cv2.imshow('Window', frame_denoised)
     if cv2.waitKey(1) & 0xFF == ord('k'):
