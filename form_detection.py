@@ -16,7 +16,6 @@ cap= cv2.VideoCapture(0)
 
 create_trackbar(trackbar_name, window_name, 17)
 create_trackbar('Trackbar2', 'Mean2', slider_max)
-cv2.COLOR_RGB2BGR
 biggest_contour = None
 
 color_red = (255, 0, 0)
