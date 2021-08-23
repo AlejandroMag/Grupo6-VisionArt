@@ -20,6 +20,7 @@ def compare_contours(contour_to_compare, saved_contours, max_diff):
             return True
     return False
 
+
 def draw_contours(frame, contours, color, thickness):
     # -1 for all contours
     cv2.drawContours(frame, contours, -1, color, thickness)
