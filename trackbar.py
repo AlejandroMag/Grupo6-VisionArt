@@ -9,8 +9,9 @@ def on_trackbar(val):
     pass
 
 
-def adaptive_threshold(frame, slider_max, adaptative, binary, trackbar_value):
-    return cv2.adaptiveThreshold(frame, slider_max, adaptative, binary, trackbar_value, 0)
+def adaptive_threshold(frame, trackbar_value):
+    _, frame2 = cv2.threshold(frame, trackbar_value, 255,  cv2.THRESH_BINARY )
+    return frame2
 
 
 def get_trackbar_value(trackbar_name, window_name):

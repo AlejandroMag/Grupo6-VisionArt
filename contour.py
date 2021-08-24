@@ -9,8 +9,9 @@ def get_contours(frame, mode, method):
 def get_biggest_contour(contours):
     max_cnt = contours[0]
     for cnt in contours:
-        if cv2.contourArea(cnt) > cv2.contourArea(max_cnt):
+        if cv2.contourArea(cnt) > cv2.contourArea(max_cnt) and cv2.contourArea(cnt)<20000:
             max_cnt = cnt
+        
     return max_cnt
 
 

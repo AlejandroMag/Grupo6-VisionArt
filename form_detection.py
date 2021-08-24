@@ -5,13 +5,13 @@ from trackbar import get_trackbar_value, create_trackbar, adaptive_threshold
 from frame_editor import denoise
 import random
 
-alpha_slider_max = 125
+alpha_slider_max = 255
 window_name = 'Denoised'
 trackbar_name = 'Trackbar'
 slider_max = 17
 window_name_2 = 'Mean'
 trackbar_name_2 = 'Trackbar2'
-slider_max_2 = 151
+slider_max_2 = 255
 
 cv2.namedWindow(window_name)
 cv2.namedWindow(window_name_2)
@@ -35,9 +35,9 @@ while True:
 
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     # cv2.imshow('Grey', grey)
-
+    
     trackbar_val2 = get_trackbar_value(trackbar_name_2, window_name_2)
-    adapt = adaptive_threshold(grey, alpha_slider_max, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, trackbar_val2)
+    adapt = adaptive_threshold(grey, trackbar_val2)
     cv2.imshow(window_name_2, adapt)
 
     trackbar_val = get_trackbar_value(trackbar_name, window_name)
@@ -54,9 +54,10 @@ while True:
             strName = str(name)
             frame_denoised = cv2.putText(frame_denoised, strName, center, cv2.FONT_HERSHEY_SIMPLEX,
                                 1, color_white, 2, cv2.LINE_AA)
-            draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_white, thickness=20)
-        draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_white, thickness=3)
-
+            draw_contours(frame=frame, contours=biggest_contour, color=(0,255,0),thickness=20)
+        else:
+            draw_contours(frame=frame, contours=biggest_contour, color=(0,0,255), thickness=3)
+        cv2.imshow('Normal', frame)
     # cv2.imshow('Window', frame_denoised)
     cv2.imshow(window_name, frame_denoised)
 
