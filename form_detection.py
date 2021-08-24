@@ -3,6 +3,7 @@ import cv2
 from contour import get_contours, get_biggest_contour, compare_contours, draw_contours
 from trackbar import get_trackbar_value, create_trackbar, adaptive_threshold
 from frame_editor import denoise
+import random
 
 alpha_slider_max = 125
 window_name = 'Denoised'
@@ -23,6 +24,7 @@ biggest_contour = None
 
 color_white = (255, 255, 255)
 saved_contours = []
+name = random.randint(0,10)
 
 while True:
     # metodo para que la camara "lea", frame son las "imagenes" de cada milisegundo
@@ -47,6 +49,11 @@ while True:
     if len(contours) > 0:
         biggest_contour = get_biggest_contour(contours=contours)
         if compare_contours(contour_to_compare=biggest_contour, saved_contours=saved_contours, max_diff=0.5):
+            (x, y), radius = cv2.minEnclosingCircle(biggest_contour)
+            center = (int(x), int(y))
+            strName = str(name)
+            frame_denoised = cv2.putText(frame_denoised, strName, center, cv2.FONT_HERSHEY_SIMPLEX,
+                                1, color_white, 2, cv2.LINE_AA)
             draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_white, thickness=20)
         draw_contours(frame=frame_denoised, contours=biggest_contour, color=color_white, thickness=3)
 
