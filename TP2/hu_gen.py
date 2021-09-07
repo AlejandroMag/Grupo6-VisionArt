@@ -4,36 +4,37 @@ import glob
 import numpy
 import math
 
+aux = 0
 
 def generate_hu_moments_file():
-    with open('C:/Users/aleja/PycharmProjects/Grupo6-VisionArt/TP2/shapes/'
-              'shapes-hu-moments.csv', 'w', newline='') as file:  # Se genera un archivo nuevo (W=Write)
+    with open('shapes/descriptores.csv', 'w', newline='') as file:  # Se genera un archivo nuevo (W=Write)
         writer = csv.writer(file)
         # Ahora escribo los momentos de Hu de cada uno de las figuras. Con el string "rectangle...etc" busca en la carpeta donde estan cada una de las imagenes
         # generar los momentos de Hu y los escribe sobre este archivo. (LOS DE ENTRENAMIENTO).
-        write_hu_moments("5-point-star", writer)
-        write_hu_moments("lightning", writer)
-        write_hu_moments("rectangle", writer)
-        write_hu_moments("triangle", writer)
+        write_hu_moments("imagenes", writer,aux)
+
 
 # Escribo los valores de los momentos de Hu en el archivo
 
-def write_hu_moments(label, writer):
-    files = glob.glob('./shapes/' + label + '/*')  # label recibe el nombre de la carpeta
+def write_hu_moments(folder, writer, aux):
+    files = glob.glob('./shapes/' + folder + '/*')  # label recibe el nombre de la carpeta
     hu_moments = []
-    for file in files:
+    for index, file in enumerate(files):
         hu_moments.append(hu_moments_of_file(file))
-    for mom in hu_moments:
-        flattened = mom.ravel()  # paso de un array de arrays a un array simple.
-      #  row = numpy.insert(flattened,0,label)
-        row = numpy.append(flattened, label)  # le metes el flattened array y le agregas el label
+        for mom in hu_moments:
+            flattened = mom.ravel()
+        # paso de un array de arrays a un array simple.
+#            row = numpy.insert(flattened, 0, int(aux))
+        row = numpy.insert(flattened, 0, str(int(index+1)))
+
+        # row = numpy.append(flattened, picNumber)  # le metes el flattened array y le agregas el label
         writer.writerow(row)  # Escribe una linea en el archivo.
 
 # Encargada de generar los momentos de Hu para las imagenes
 
 def hu_moments_of_file(filename):
     image = cv2.imread(filename)
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     bin = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 67, 2)
 
     # Invert the image so the area of the UAV is filled with 1's. This is necessary since

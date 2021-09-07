@@ -7,9 +7,9 @@ from label_conv import int_to_label
 
 
 def load_and_test(model):
-    files = glob.glob('shapes/testing/*')
+    files = glob.glob('shapes/imagenes/*')
     for f in files:
-        hu_moments = hu_moments_of_file(f) # Genera los momentos de hu de los files de testing
+        hu_moments = hu_moments_of_file(f) # Genera los momentos de hu de los files de imagenes
         sample = np.array([hu_moments], dtype=np.float32) # numpy
         testResponse = model.predict(sample)[1] # Predice la clase de cada file
 

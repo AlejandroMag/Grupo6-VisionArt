@@ -12,20 +12,42 @@ trainLabels = []
 def load_training_set():
     global trainData
     global trainLabels
-    with open('C:/Users/aleja/PycharmProjects/Grupo6-VisionArt/TP2/shapes/'
-              'shapes-hu-moments.csv') as csv_file:
+    with open('shapes/descriptores.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
-            class_label = row.pop() # saca el ultimo elemento de la lista
+            # sacar ep primer elemento (numero de foto)
+
+            numero_de_foto = row.pop(0)  # saca el primer elemento de la lista
+            photo_numb = int(numero_de_foto)# castearlo a int
+
+            # pasar de numero de foto a numero de label
+
+            convert_to_label_number(photo_numb)
+
+
+            # appender el numero de label a train label
+            # agarrar hu moments y appendearlos a train data
+
+
+
+
             floats = []
             for n in row:
                 floats.append(float(n)) # tiene los momentos de Hu transformados a float.
             trainData.append(np.array(floats, dtype=np.float32)) # momentos de Hu
-            trainLabels.append(np.array([label_to_int(class_label)], dtype=np.int32)) # Resultados
+            trainLabels.append(np.array([numero_de_label], dtype=np.int32)) # Resultados
             #Valores y resultados se necesitan por separados
     trainData = np.array(trainData, dtype=np.float32)
     trainLabels = np.array(trainLabels, dtype=np.int32)
 # transforma los arrays a arrays de forma numpy
+
+
+def convert_to_label_number(photo_numb):
+    with open('shapes/supervision.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            if (int(csv_file.readline().split()[0]) == photo_numb):
+                return int(csv_file.readline().split()[1])
 
 
 # llama la funcion de arriba, se manda a entrenar y devuelve el modelo entrenado

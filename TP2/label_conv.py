@@ -11,6 +11,7 @@ def label_to_int(string_label):
 
 
 def int_to_label(string_label):
+    # deberian leer del csv de etiquetas
     if string_label == 0: return 'circle'
     if string_label == 1: return 'rectangle'
     if string_label == 2: return 'lightning'
