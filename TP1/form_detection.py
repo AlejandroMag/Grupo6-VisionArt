@@ -1,6 +1,6 @@
 import cv2
 
-from TP1.contour import get_contours, get_biggest_contour, compare_contours, draw_contours
+from contour import get_contours, get_biggest_contour, compare_contours, draw_contours
 from trackbar import get_trackbar_value, create_trackbar, adaptive_threshold
 from frame_editor import denoise
 import random
