@@ -18,17 +18,15 @@ def load_training_set():
             # sacar ep primer elemento (numero de foto)
 
             numero_de_foto = row.pop(0)  # saca el primer elemento de la lista
-            photo_numb = int(numero_de_foto)# castearlo a int
+            photo_numb =  int(float(numero_de_foto))# castearlo a int
 
             # pasar de numero de foto a numero de label
 
-            convert_to_label_number(photo_numb)
+            numero_de_label=convert_to_label_number(photo_numb)
 
 
             # appender el numero de label a train label
             # agarrar hu moments y appendearlos a train data
-
-
 
 
             floats = []
@@ -46,8 +44,8 @@ def convert_to_label_number(photo_numb):
     with open('shapes/supervision.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
-            if (int(csv_file.readline().split()[0]) == photo_numb):
-                return int(csv_file.readline().split()[1])
+            if (int(float(row[0])) == photo_numb):
+                return int(float(row[1]))
 
 
 # llama la funcion de arriba, se manda a entrenar y devuelve el modelo entrenado
