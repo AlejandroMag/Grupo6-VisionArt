@@ -21,6 +21,7 @@ while True:
     cv2.imshow('Normal', frame)
     if val==1 :
         hu_moments = hu_moments_of_file(filename)  # Genera los momentos de hu de los files de testing
+
         sample = np.array([hu_moments], dtype=np.float32)  # numpy
         testResponse = model.predict(sample)[1]  # Predice la clase de cada file
 
@@ -34,6 +35,10 @@ while True:
         ticks = str(cv2.getTickCount())
         cv2.imwrite(ticks + '.png', frame)
         filename= ticks + '.png'
+        if val==1 :
+            print(hu_moments)
+            print(testResponse)
+            print()
         val=1
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
