@@ -27,7 +27,8 @@ while True:
     # sure background area
     sure_bg = cv.dilate(closing, kernel, iterations=3)
 
-
+    # Finding sure foreground area
+    sure_fg = cv.erode(closing, kernel, iterations=3)
 
     contours, h = cv.findContours(sure_bg, 1, cv.CHAIN_APPROX_NONE)
     for cnt in contours:
@@ -38,15 +39,30 @@ while True:
     img = cv.putText(img, str(len(contours)), (50, 50), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0),
                                   2, cv.LINE_AA)
     cv.imshow("sure_bg", img)
+
+    # Finding unknown region
+    sure_fg = np.uint8(sure_fg)
+    unknown = cv.subtract(sure_bg, sure_fg)
+
+    # Marker labelling
+    _, markers = cv.connectedComponents(sure_fg)
+    print(markers)
+    print("------------------")
+    # Add one to all labels so that sure background is not 0, but 1
+    markers = markers + 1
+    # Now, mark the region of unknown with zero
+    markers[unknown == 255] = 0
+
+    markers = cv.watershed(img, markers)
+
+    print(img)
+    print(markers)
+
+    img[markers == -1] = [255, 0, 0]
+
+
+
     if cv.waitKey(1) & 0xFF == ord('q'):
+        cv.imshow("img", img)
+        cv.waitKey()
         break
-
-#cv.imshow("img", thresh)
-
-cv.waitKey()
-
-
-
-#cv.imshow("sure_bg", sure_bg)
-
-cv.waitKey()
