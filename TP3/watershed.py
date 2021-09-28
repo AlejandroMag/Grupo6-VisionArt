@@ -3,6 +3,7 @@ import cv2 as cv
 
 from TP1.contour import get_contours, get_biggest_contour, compare_contours
 from TP1.trackbar import create_trackbar, get_trackbar_value, adaptive_threshold
+from color_map import normal, binary
 
 saved_contours = []
 alpha_slider_max = 255
@@ -30,6 +31,7 @@ while True:
     # Finding sure foreground area
     sure_fg = cv.erode(closing, kernel, iterations=3)
 
+
     contours, h = cv.findContours(sure_bg, 1, cv.CHAIN_APPROX_NONE)
     for cnt in contours:
         cv.drawContours(img, [cnt], 0, (0, 0, 255), 2)
@@ -38,10 +40,11 @@ while True:
 
     img = cv.putText(img, str(len(contours)), (50, 50), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0),
                                   2, cv.LINE_AA)
-    cv.imshow("sure_bg", img)
+
 
     # Finding unknown region
     sure_fg = np.uint8(sure_fg)
+
     unknown = cv.subtract(sure_bg, sure_fg)
 
     # Marker labelling
@@ -62,7 +65,16 @@ while True:
 
 
 
+
+
     if cv.waitKey(1) & 0xFF == ord('q'):
-        cv.imshow("img", img)
         cv.waitKey()
+        normal(sure_fg)
+        #binary(img,grey,thresh)
         break
+
+
+
+
+
+
