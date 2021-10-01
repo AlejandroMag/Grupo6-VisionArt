@@ -4,8 +4,9 @@ from utils import get_connected_components
 
 def binary(img,grey, thresh):
     map = cv2.applyColorMap(grey, cv2.COLORMAP_JET)
-    cv2.imshow("map", map)
+
     get_connected_components(thresh, 8, img)
+    cv2.imshow("map", map)
     cv2.waitKey()
 
 
